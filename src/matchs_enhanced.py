@@ -3,7 +3,6 @@ from api_utils import APIUtils
 
 import chime
 import pandas as pd
-import time
 from tqdm import tqdm
 from rich.console import Console
 import sqlite3
