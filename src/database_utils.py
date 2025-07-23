@@ -45,9 +45,8 @@ class DatabaseManager:
                 
                 cursor.execute("""
                     CREATE TABLE IF NOT EXISTS players (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        puuid TEXT PRIMARY KEY,
                         name TEXT NOT NULL,
-                        puuid TEXT UNIQUE NOT NULL,
                         level INTEGER NOT NULL,
                         tier TEXT NOT NULL,
                         score FLOAT NOT NULL,
