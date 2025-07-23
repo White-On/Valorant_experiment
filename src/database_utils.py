@@ -183,6 +183,47 @@ class DatabaseManager:
             console.print(f"[red]Erreur lors de la récupération de l'échantillon: {e}[/red]")
             return pd.DataFrame()
     
+    def get_player_stats(self, puuid: str) -> pd.DataFrame:
+        """
+        Récupère les statistiques d'un joueur par son PUUID.
+        
+        Args:
+            puuid (str): PUUID du joueur
+            
+        Returns:
+            pd.DataFrame: DataFrame contenant les statistiques du joueur
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                query = "SELECT * FROM players WHERE puuid = ?"
+                return pd.read_sql_query(query, conn, params=(puuid,))
+                
+        except sqlite3.Error as e:
+            console.print(f"[red]Erreur lors de la récupération des stats pour {puuid}: {e}[/red]")
+            return pd.DataFrame()
+    
+    def get_batch_player_stats(self, puuids: list) -> pd.DataFrame:
+        """
+        Récupère les statistiques de plusieurs joueurs par leurs PUUIDs.
+        
+        Args:
+            puuids (list): Liste de PUUIDs des joueurs
+            
+        Returns:
+            pd.DataFrame: DataFrame contenant les statistiques des joueurs
+        """
+        if not puuids:
+            return pd.DataFrame()
+
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                query = "SELECT * FROM players WHERE puuid IN ({})".format(','.join('?' for _ in puuids))
+                return pd.read_sql_query(query, conn, params=puuids)
+                
+        except sqlite3.Error as e:
+            console.print(f"[red]Erreur lors de la récupération des stats pour les PUUIDs: {e}[/red]")
+            return pd.DataFrame()
+    
     def database_exists(self) -> bool:
         """
         Vérifie si la base de données existe et contient des joueurs.
