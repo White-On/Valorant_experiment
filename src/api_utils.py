@@ -6,7 +6,6 @@ import time
 import rich
 
 
-
 class APIUtils:
     def __init__(self):
         load_dotenv()
@@ -64,6 +63,9 @@ class APIUtils:
                 response.raise_for_status()  # Raise an error for bad responses
                 break  # Exit loop if request is successful
             except requests.exceptions.RequestException as e:
+                # for the bad request, we retry
+                if "502" in str(e):
+                    return None
                 # print(f"Attempt {attempt + 1} failed for PUUID {puuid}: {e}")
                 if attempt == nb_retries - 1:
                     raise

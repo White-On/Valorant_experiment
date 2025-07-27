@@ -225,6 +225,21 @@ class DatabaseManager:
             console.print(f"[red]Erreur lors de la récupération des stats pour les PUUIDs: {e}[/red]")
             return pd.DataFrame()
     
+    def get_all_players(self) -> pd.DataFrame:
+        """
+        Récupère tous les joueurs de la base de données.
+        
+        Returns:
+            pd.DataFrame: Tous les joueurs avec leurs statistiques
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                query = "SELECT * FROM players"
+                return pd.read_sql_query(query, conn)
+        except sqlite3.Error as e:
+            console.print(f"[red]Erreur lors de la récupération des joueurs: {e}[/red]")
+            return pd.DataFrame()
+    
     def database_exists(self) -> bool:
         """
         Vérifie si la base de données existe et contient des joueurs.

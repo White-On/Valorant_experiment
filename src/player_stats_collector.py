@@ -102,10 +102,14 @@ def main():
         console.print("[red]Aucun match trouvé dans le fichier CSV[/red]")
         return
 
+    # Récupèrer l'ensemble des joueurs à partir des matchs
+    columns_puuids = [col for col in list_matchs.columns if 'puuid' in col]
+    columns_names = [col for col in list_matchs.columns if 'name' in col]
+
     players_list = pd.DataFrame({
-        "name": list_matchs['blue_0_name'].tolist() + list_matchs['red_0_name'].tolist(),
-        "puuid": list_matchs['blue_0_puuid'].tolist() + list_matchs['red_0_puuid'].tolist()
-    }).drop_duplicates()
+        'puuid': list_matchs[columns_puuids].values.flatten(),
+        'name': list_matchs[columns_names].values.flatten()
+    }).dropna().drop_duplicates(subset='puuid').reset_index(drop=True)  
 
     console.print(f'[green]Collecte des statistiques pour {len(players_list)} joueurs...[/green]')
 
