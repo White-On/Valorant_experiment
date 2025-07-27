@@ -5,7 +5,7 @@ import datetime
 DATA_FILE = Path(__file__).parents[1] / "data"
 
 # Hard limit for iterations to avoid infinite loop
-HARD_ITERATION_LIMIT = 10
+HARD_ITERATION_LIMIT = 50
 
 # Matchs file path
 MATCHS_FILE = DATA_FILE / "matchs.csv"

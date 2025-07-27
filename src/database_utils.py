@@ -8,6 +8,7 @@ import sqlite3
 from pathlib import Path
 from rich.console import Console
 from config import PLAYER_DB_PATH
+from contextlib import contextmanager
 
 console = Console()
 
@@ -280,7 +281,24 @@ class DatabaseManager:
         except sqlite3.Error as e:
             console.print(f"[red]Erreur lors de la vérification de l'existence du joueur: {e}[/red]")
             return False
-
+    
+    @contextmanager
+    def get_connection(self):
+        """
+        Context manager pour obtenir une connexion à la base de données.
+        
+        Yields:
+            sqlite3.Connection: Connexion à la base de données
+        """
+        conn = sqlite3.connect(self.db_path)
+        try:
+            yield conn
+        except sqlite3.Error as e:
+            console.print(f"[red]Erreur dans le contexte de la base de données: {e}[/red]")
+            conn.rollback()
+        finally:
+            conn.close()
+        
 
 if __name__ == "__main__":
     # Test rapide du module

@@ -73,7 +73,7 @@ def collect_player_stats(api_utils: APIUtils, player_data: dict) -> dict:
 
         mean_stats = stats_df.drop(columns='level', errors='ignore').mean(numeric_only=True).to_dict()
         mean_stats['level'] = int(stats_df['level'].max()) if 'level' in stats_df else None
-        mean_stats['puuid'] = matchs_list[0].get('stats',{}).get('puuid', 'UNKNOWN')
+        mean_stats['puuid'] = player_data.get('puuid', 'Unknown PUUID')
         mean_stats['match_count'] = len(matchs_list)
         mean_stats['name'] = player_data.get('name', 'Unknown Player')
         return mean_stats
