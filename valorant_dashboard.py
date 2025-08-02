@@ -576,6 +576,7 @@ def players_data_tab(db_stats):
                 title="Précision des headshots vs Volume de tir",
                 color='level',
                 size='match_count',
+                color_continuous_scale='Viridis',
                 hover_data=['name', 'tier']
             )
             fig_headshot.update_layout(
