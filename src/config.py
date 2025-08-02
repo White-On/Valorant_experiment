@@ -13,8 +13,5 @@ MATCHS_FILE = DATA_FILE / "matchs.csv"
 # expiration limit for the matchs in the file (a month)
 MATCHS_EXPIRATION_LIMIT = datetime.datetime.now() - datetime.timedelta(days=30)
 
-# Matchs enhanced file path
-MATCHS_ENHANCED_FILE = DATA_FILE / "matchs_enhanced.csv"
-
 # Path to the SQLite player database
 PLAYER_DB_PATH = DATA_FILE / "player_stats.db"
